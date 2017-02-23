@@ -348,6 +348,7 @@ public final class Database {
     func setup() throws {
         // Setup trace first, so that setup queries are traced.
         setupTrace()
+        setupExtendedErrorCodes()
         try setupForeignKeys()
         setupBusyMode()
         setupDefaultFunctions()
@@ -379,6 +380,10 @@ public final class Database {
         schemaCache.clear()
         updateStatementCache = [:]
         selectStatementCache = [:]
+    }
+    
+    private func setupExtendedErrorCodes() {
+        sqlite3_extended_result_codes(sqliteConnection, 1)
     }
     
     private func setupForeignKeys() throws {
